@@ -1,0 +1,38 @@
+package com.mycompany.sharpr_chapt12;
+
+/**
+ * Start of Validation in order to make sure the input from user was correct
+ * Returning message if input is incorrect
+ *  lineEnd allows 2 errors to be read easily by user
+ */
+public class Validation {
+    private final String lineEnd;
+    
+    public Validation() {
+        this.lineEnd = "\n";
+    }
+    
+   public Validation (String lineEnd) {
+       this.lineEnd = lineEnd;
+   }
+   
+   public String isEmpty(String value, String name) { //checking if field is left blank.
+       String info = "";
+       if(value.isEmpty()) {
+           info = name + " is required." + lineEnd;
+       }
+       return info;
+   } // end of is isEmpty
+   
+   public String isDouble(String name, String value) { //checking if field is Double
+       String info= "";
+       try {
+           Double.parseDouble(value);
+       } catch (NumberFormatException e) {
+           info = name + " must be a double number." + lineEnd;
+       }
+       return info;
+   }// end of isDouble
+   
+  
+}//end of Validation Class
