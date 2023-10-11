@@ -1,0 +1,18 @@
+package com.mycompany.sharpr_chapt12;
+
+import static java.lang.Math.sqrt;
+
+/**
+ * Math used to get correct calculation
+ * Returning the answer to the main
+ */
+public class Calculator {
+    
+    public static double Calculator (double SideAfield, double SideBfield) {
+       double sideC = (SideAfield * SideAfield) + (SideBfield *SideBfield);
+       double userAnswer = sqrt(sideC);
+        
+        return userAnswer;
+    }
+    
+}
