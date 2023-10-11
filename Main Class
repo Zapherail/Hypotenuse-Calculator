@@ -1,0 +1,97 @@
+package com.mycompany.sharpr_chapt12;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+
+/**
+ * Robert Sharp
+ * September 14th 2023
+ * Programming 2
+ */
+public class App extends Application {
+    private TextField sideAfield;  //creating textfield A
+    private TextField sideBfield;  // creating textfield B
+    private TextField sideCfield;   // creating Textfield C
+    @Override
+    public void start(Stage stage) {
+        stage.setTitle("Right Triangle Calculator"); //setting title for GUI window
+        
+       GridPane grid = new GridPane(); //creating GUI grid
+       grid.setAlignment(Pos.TOP_CENTER); //alligning GUI to popup TOP Center of screen
+       grid.setPadding(new Insets( 15, 25, 15, 25)); //setting padding for information in GUI
+       grid.setHgap(10); //setting gaps for the H box
+       grid.setVgap(10); // setting gaps for the V box
+       
+       Scene scene = new Scene(grid); //creation of Scene 
+       
+       grid.add(new Label("Side A:"), 0, 0); // Adding side A as a label
+       sideAfield = new TextField(); // attaching sideAfield to side A label
+       grid.add(sideAfield, 1, 0); //placement of sideA label
+       
+       grid.add(new Label("Side B:"), 0, 1); //Adding side B as a label
+       sideBfield = new TextField(); // attaching sideBfield to side A label
+       grid.add(sideBfield, 1, 1); //placement of sideA label
+       
+       grid.add(new Label("Side C:"), 0, 2); // Adding side A as a label
+       sideCfield = new TextField(); // attaching sideAfield to side A label
+       sideCfield.setEditable(false);
+       grid.add(sideCfield, 1, 2); //placement of sideA label
+       
+       Button calculateButton = new Button("Calculate"); //creating button
+       calculateButton.setOnAction(event -> calculateButtonClicked()); //creating event to happen when button is pushed.
+       
+       Button exitButton = new Button("Exit"); //Setting exit button
+       exitButton.setOnAction(event -> exitButtonClicked()); //setting exit button action
+       
+       HBox buttonBox = new HBox(10); // making hor.box 
+       buttonBox.getChildren().add(calculateButton); //adding calculate button
+       buttonBox.getChildren().add(exitButton);//adding exit button
+       buttonBox.setAlignment(Pos.BOTTOM_RIGHT);//setting allignment
+       grid.add(buttonBox, 0, 4, 2, 1);
+       
+       stage.setScene(scene); 
+       stage.show();
+    }// end of Start
+    
+    private void calculateButtonClicked() {
+        Validation v = new Validation(); //calling validation class
+        String errormsg = null; // setting errormsg to null
+        errormsg += v.isDouble("Side A", sideAfield.getText()); // sending results to isDouble class
+        errormsg += v.isDouble("Side B", sideBfield.getText());//sending results to isDouble class
+        
+        if(errormsg.isEmpty()) {
+            double sideA = Double.parseDouble(sideAfield.getText());//making string into double
+            double sideB = Double.parseDouble(sideBfield.getText());//making string into double 
+            
+            double userAnswer = Calculator.Calculator(sideA, sideB);// sending to calculator class for calculations
+            String sideC = Double.toString(userAnswer);//making answer a string
+            sideCfield.setText(sideC);//setting answer to box
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);// Alert box creation
+            alert.setHeaderText("Invalid Data");//setting invalid data to appear
+            alert.setContentText(errormsg);//giving message based on error
+            alert.showAndWait();
+        } // end of if/else
+        
+    } // end of caculateButtonClicked()
+    
+    private void exitButtonClicked() {
+        System.exit(0);//setting button to close
+    }
+    
+    public static void main(String[] args) {
+        
+        launch();
+    }
+
+}
